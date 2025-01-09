@@ -1,0 +1,33 @@
+name: 'Stackgen CLI Action'
+description: 'GitHub Action for Stackgen CLI operations'
+inputs:
+  command:
+    description: 'The stackgen command to run (appstack, provision, destroy, etc)'
+    required: true
+  subcommand:
+    description: 'Subcommand for the main command (if applicable)'
+    required: false
+  flags:
+    description: 'Command flags as a multi-line string, one flag per line'
+    required: false
+  aws_access_key:
+    description: 'AWS Access Key'
+    required: false
+  aws_secret_key:
+    description: 'AWS Secret Key'
+    required: false
+  aws_region:
+    description: 'AWS Region'
+    required: false
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.command }}
+    - ${{ inputs.subcommand }}
+    - ${{ inputs.flags }}
+  env:
+    AWS_ACCESS_KEY_ID: ${{ inputs.aws_access_key }}
+    AWS_SECRET_ACCESS_KEY: ${{ inputs.aws_secret_key }}
+    AWS_DEFAULT_REGION: ${{ inputs.aws_region }}
